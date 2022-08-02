@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-02 11:59:21
+ * @LastEditTime: 2022-08-02 16:42:37
  */
 import router from '@/router'
 import store from '@/store'
@@ -23,6 +23,11 @@ router.beforeEach((to, from, next) => {
 
   const token = store.state.user.token
   if (token) {
+    if (!store.state.user.userInfo.userId) {
+      // 获取用户信息
+      store.dispatch('user/getUserInfo')
+    }
+
     if (to.path === '/login') return next('/')
     next()
   } else {

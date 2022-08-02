@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-07-31 15:48:11
+ * @LastEditTime: 2022-08-02 16:46:25
  */
 import request from '@/utils/request'
 
@@ -22,4 +22,16 @@ export function login (data) {
   })
 }
 
+/**
+ *
+ * @returns promis
+ */
+// 获取用户信息
+export const getUserInfoAPI = () => request({
+  url: '/sys/profile',
+  method: 'POST'
+})
 
+export const getUserDetailAPI = (id) => request({
+  url: `/sys/user/${id}`,
+})
