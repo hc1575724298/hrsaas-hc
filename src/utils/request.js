@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-03 12:09:33
+ * @LastEditTime: 2022-08-03 13:54:56
  */
 // 导出一个axios的实例  而且这个实例要有请求拦截器 响应拦截器
 import axios from 'axios'
@@ -56,7 +56,6 @@ service.interceptors.response.use((res) => {
   return Promise.reject(new Error(message))
 },
   async function (err) {
-
     if (err?.response?.status === 401) {
       await store.dispatch('user/logout')
       router.push('/login')
