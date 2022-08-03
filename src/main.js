@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-07-31 10:13:34
+ * @LastEditTime: 2022-08-03 10:30:31
  */
 import Vue from 'vue'
 
@@ -24,6 +24,9 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+// 引入自定义指令
+import * as directives from '@/Directives'
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -41,6 +44,21 @@ if (process.env.NODE_ENV === 'production') {
 Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
 // Vue.use(ElementUI)
+
+// 自定义指令
+// Vue.directive('imgError', {
+//   inserted: (el, { value }) => {
+//     el.onerror = function () {
+//       el.src = value
+//     }
+//   }
+// })
+
+// 注册自定义指令
+for (let k in directives) {
+  Vue.directive(k, directives[k])
+}
+
 
 Vue.config.productionTip = false
 
