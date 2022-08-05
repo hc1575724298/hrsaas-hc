@@ -115,3 +115,25 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+/**
+ * 把列表数据转为树形结构
+ * @param {*} data 要处理的数组
+ * @param {*} pid 一级元素的id
+ * @returns
+ */
+export function transListToTree (data, pid) {
+  const arr = []
+  data.forEach(item => {
+    if (item.pid === pid) {
+
+      const childrenTree = transListToTree(data, item.id)
+      if (childrenTree.length) {
+        item.children = childrenTree
+      }
+      arr.push(item)
+    }
+  })
+
+  return arr
+}

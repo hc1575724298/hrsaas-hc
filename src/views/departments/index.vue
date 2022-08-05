@@ -1,20 +1,70 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: suiyue
+ * @email: 1373842098@qq.com
+ * @Date: 2022-08-03 16:08:51
+ * @LastEditors: sj
+ * @LastEditTime: 2022-08-05 14:37:21
+-->
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <h2>组织架构</h2>
+      <el-card class="box-card">
+        <!-- 头部 -->
+        <TreeTools :treeNode="company" :isRoot="true"></TreeTools>
+        <!-- 树形结构 -->
+        <el-tree :data="dataTree" :props="defaultProps" default-expand-all>
+          <!-- 作用域插槽 -->
+          <!-- v-slot获取组件内部slot提供的数据 -->
+          <template v-slot="{ data }">
+             <TreeTools :treeNode="data"></TreeTools>
+          </template>
+
+        </el-tree>
+      </el-card>
     </div>
   </div>
 </template>
 
 <script>
+import TreeTools from './componemts/TreeTools.vue'
+import { getDeptsApi } from '@/api/departments'
+import { transListToTree } from '@/utils/index'
 export default {
   data() {
-    return {}
+    return {
+      dataTree:[
+        {
+         name: '总裁办', children:[{name: '董事会'}]
+        },
+        {name:'行政部'},
+        {name:'人事部'},
+      ],
+      defaultProps:{
+        label: 'name'
+      },
+      company:{
+      name: '创指教育',
+      manager: '负责人'
+    }
+    }
+
+  },
+  components:{
+   TreeTools
+  },
+  created() {
+    this.loadDepts()
   },
 
-  created() {},
-
-  methods: {}
+  methods: {
+    async loadDepts(){
+      const res = await getDeptsApi()
+      console.log(res);
+      this.dataTree = transListToTree(res.depts, '')
+    }
+  }
 }
 </script>
 
