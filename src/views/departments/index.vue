@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 16:08:51
  * @LastEditors: sj
- * @LastEditTime: 2022-08-05 16:13:07
+ * @LastEditTime: 2022-08-06 17:19:13
 -->
 <template>
   <div class="dashboard-container">
@@ -18,7 +18,11 @@
           <!-- 作用域插槽 -->
           <!-- v-slot获取组件内部slot提供的数据 -->
           <template v-slot="{ data }">
-             <TreeTools :treeNode="data" @remove="loadDepts()" @addDept="dialogVisible=true"></TreeTools>
+             <TreeTools
+             :treeNode="data"
+              @remove="loadDepts()"
+              @addDept="showAddDepts"
+              @edit="showEdit"></TreeTools>
           </template>
 
         </el-tree>
@@ -26,7 +30,12 @@
     </div>
 
     <!-- 添加部门弹出层 -->
-     <add-dept :dialogVisible="dialogVisible"/>
+     <add-dept
+     :visible.sync="dialogVisible"
+     :currentTreeNode="currentTreeNode"
+      @add-success ="loadDepts"
+      ref="addDept"
+      />
   </div>
 </template>
 
@@ -38,13 +47,7 @@ import { transListToTree } from '@/utils/index'
 export default {
   data() {
     return {
-      dataTree:[
-        {
-         name: '总裁办', children:[{name: '董事会'}]
-        },
-        {name:'行政部'},
-        {name:'人事部'},
-      ],
+      dataTree:[],
       defaultProps:{
         label: 'name'
       },
@@ -52,7 +55,8 @@ export default {
       name: '创指教育',
       manager: '负责人'
     },
-    dialogVisible: false
+    dialogVisible: false,
+    currentTreeNode:{}
     }
 
   },
@@ -66,9 +70,20 @@ export default {
 
   methods: {
     async loadDepts(){
+      this.loading = false
       const res = await getDeptsApi()
       console.log(res);
       this.dataTree = transListToTree(res.depts, '')
+      this.loading = true
+
+    },
+    showAddDepts(val){
+      this.dialogVisible=true
+      this.currentTreeNode = val
+    },
+    showEdit(val){
+      this.dialogVisible=true
+      this.$refs.addDept.getDeptById(val.id)
     }
   }
 }

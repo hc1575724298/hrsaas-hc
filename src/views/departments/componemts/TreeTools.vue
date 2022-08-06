@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-05 10:10:57
  * @LastEditors: sj
- * @LastEditTime: 2022-08-05 16:05:22
+ * @LastEditTime: 2022-08-06 14:49:58
 -->
 <template>
    <el-row style="width: 100%" type="flex">
@@ -19,9 +19,9 @@
                     操作<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="$emit('addDept')">添加部门</el-dropdown-item>
+                    <el-dropdown-item @click.native="$emit('addDept',treeNode)">添加部门</el-dropdown-item>
                     <template v-if="!isRoot">
-                    <el-dropdown-item>编辑部门</el-dropdown-item>
+                    <el-dropdown-item @click.native="$emit('edit',treeNode)">编辑部门</el-dropdown-item>
                     <el-dropdown-item @click.native="onRemove">删除部门</el-dropdown-item>
                     </template>
                   </el-dropdown-menu>
