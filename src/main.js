@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-11 10:33:15
+ * @LastEditTime: 2022-08-11 14:48:44
  */
 import Vue from 'vue'
 
@@ -26,6 +26,9 @@ import '@/permission' // permission control
 
 // 引入自定义指令
 import * as directives from '@/Directives'
+
+import components from '@/components'
+Vue.use(components)
 
 /**
  * If you don't want to use mock-server
