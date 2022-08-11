@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-11 09:42:48
  * @LastEditors: sj
- * @LastEditTime: 2022-08-11 09:43:57
+ * @LastEditTime: 2022-08-11 12:15:18
  */
 import request from '@/utils/request'
 
@@ -32,7 +32,7 @@ export function addRoles (data) {
 
 export function delRoles (id) {
   return request({
-    url: '/sys/role' + id,
+    url: '/sys/role/' + id,
     method: 'DELETE',
   })
 }

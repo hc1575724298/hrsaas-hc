@@ -15,7 +15,7 @@ import store from '@/store'
 // next 是否进入
 
 const whiteList = ['/login', '/404']
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 进行权限控制
   // 调用next 进入该路由，如果没有则无法进入
   // if (to.path === '/login') { next() }
@@ -25,7 +25,7 @@ router.beforeEach((to, from, next) => {
   if (token) {
     if (!store.state.user.userInfo.userId) {
       // 获取用户信息
-      store.dispatch('user/getUserInfo')
+      await store.dispatch('user/getUserInfo')
     }
 
     if (to.path === '/login') return next('/')

@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 16:08:51
  * @LastEditors: sj
- * @LastEditTime: 2022-08-11 11:55:11
+ * @LastEditTime: 2022-08-11 12:19:26
 -->
 <template>
   <div class="dashboard-container">
@@ -47,7 +47,29 @@
     :total="total">
   </el-pagination>
    </el-tab-pane>
-    <el-tab-pane label="公司信息" name="second">配置管理</el-tab-pane>
+    <el-tab-pane label="公司信息" name="second">
+      <el-alert
+            title="对公司名称、公司地址、营业执照、公司地区的更新，将使得公司资料被重新审核，请谨慎修改"
+            type="info"
+            show-icon
+            :closable="false"
+          >
+          </el-alert>
+          <el-form ref="form" label-width="80px">
+            <el-form-item label="公司名称">
+              <el-input disabled  v-model="companyInfo.name"></el-input>
+            </el-form-item>
+            <el-form-item label="公司地址">
+              <el-input disabled  v-model="companyInfo.companyAddress"></el-input>
+            </el-form-item>
+            <el-form-item label="公司邮箱">
+              <el-input disabled  v-model="companyInfo.mailbox"></el-input>
+            </el-form-item>
+            <el-form-item label="备注">
+              <el-input disabled  v-model="companyInfo.remarks"></el-input>
+            </el-form-item>
+          </el-form>
+    </el-tab-pane>
   </el-tabs>
     </div>
 
@@ -72,6 +94,7 @@
 
 <script>
 import {getRoles,addRoles,delRoles} from '@/api/role'
+import {getCompanyInfo} from '@/api/setting'
 export default {
   data() {
     return {
@@ -87,13 +110,15 @@ export default {
        },
        addRoleFromRules: {
         name:[{required:true, message: '请输入',tirgger:'blur'}]
-        }
+        },
+        companyInfo:{}
 
     }
   },
 
   created() {
     this.getRoles()
+    this.getCompanyInfo()
   },
 
   methods: {
@@ -134,9 +159,16 @@ export default {
     },
     //删除
     async delRoles(row){
-      await delRoles
-      (row.id)
-      // this.$message.success('删除成功')
+      await delRoles(row.id)
+      this.$message.success('删除成功')
+      this.getRoles()
+    },
+    async getCompanyInfo(){
+      const res = await getCompanyInfo(
+       this.$store.state.user.userInfo.companyId
+      )
+      console.log(res);
+      this.companyInfo = res
     }
   }
 }
