@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-03 10:30:31
+ * @LastEditTime: 2022-08-11 10:33:15
  */
 import Vue from 'vue'
 
@@ -41,9 +41,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
+// Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明
-// Vue.use(ElementUI)
+Vue.use(ElementUI)
 
 // 自定义指令
 // Vue.directive('imgError', {

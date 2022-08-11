@@ -33,8 +33,8 @@ export default {
     async getUserInfo ({ commit }, payload) {
       const res = await getUserInfoAPI()
       const userInfo = await getUserDetailAPI(res.userId)
-      console.log(res);
-      console.log(userInfo);
+      // console.log(res);
+      // console.log(userInfo);
       commit('setUserInfo', { ...res, ...userInfo })
     },
     logout ({ commit }) {
