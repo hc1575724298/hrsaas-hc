@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-11 14:48:44
+ * @LastEditTime: 2022-08-12 10:59:58
  */
 import Vue from 'vue'
 
@@ -30,6 +30,12 @@ import * as directives from '@/Directives'
 import components from '@/components'
 Vue.use(components)
 
+// 过滤器封装
+import * as filters from '@/filters'
+// 统一注册过滤器
+for (let k in filters) {
+  Vue.filter(k, filters[k])
+}
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

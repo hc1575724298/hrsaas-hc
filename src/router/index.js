@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 12:20:46
  * @LastEditors: sj
- * @LastEditTime: 2022-08-03 15:48:33
+ * @LastEditTime: 2022-08-12 16:07:52
  */
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -17,6 +17,7 @@ import attendancesRouter from './modules/attendances'
 import salarysRouter from './modules/salarys'
 import settingRouter from './modules/setting'
 import socialRouter from './modules/social'
+import importModule from './modules/import'
 
 Vue.use(Router)
 
@@ -88,7 +89,8 @@ export const asyncRoutes = [
   attendancesRouter,
   salarysRouter,
   settingRouter,
-  socialRouter
+  socialRouter,
+  importModule
 ]
 
 const createRouter = () => new Router({
