@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 16:08:51
  * @LastEditors: sj
- * @LastEditTime: 2022-08-12 16:05:26
+ * @LastEditTime: 2022-08-14 14:33:43
 -->
 <template>
   <div class="dashboard-container">
@@ -14,7 +14,7 @@
         <span slot="left-tag">共166条记录</span>
         <template slot="right">
           <el-button size="small" type="warning" @click="$router.push('/import')">导入</el-button>
-          <el-button size="small" type="danger">导出</el-button>
+          <el-button size="small" type="danger" @click="exportExcel">导出</el-button>
           <el-button size="small" type="primary" @click="onShowAdd">新增员工</el-button>
         </template>
       </page-tools>
@@ -97,6 +97,8 @@
 import { getEmployeedInfoApi ,delEmployeedInfoApi} from '@/api/employees'
 import employees from '@/constant/employees'
 import addEmployees from './components/add-employees.vue'
+import employeesConst from '@/constant/employees'
+const { exportExcelMapPath ,hireType} = employeesConst
 export default {
   data() {
     return {
@@ -143,6 +145,33 @@ export default {
     // 点击新增员工
     onShowAdd(){
       this.showAddEmployees=true
+    },
+    async exportExcel(){
+      const {export_json_to_excel} =await import('@/vendor/Export2Excel') // 文件懒加载
+       const { rows } = await getEmployeedInfoApi({
+        page: 1,
+        size: this.total
+       })
+
+       const header = Object.keys(exportExcelMapPath)
+       const date = rows.map(item => {
+          return header.map(h => {
+            if(h === '聘用形式'){
+            const findItem = hireType.find( hire => hire.id ===item[exportExcelMapPath[h]])
+            return findItem ? findItem.value : '未知'
+            } else {
+              return item[exportExcelMapPath[h]]
+            }
+          })
+       })
+      //  console.log(date);
+      export_json_to_excel({
+    header, //表头 必填
+    data:date, //具体数据 必填
+    filename: 'excel-list', //非必填
+    autoWidth: true, //非必填
+    bookType: 'xlsx' //非必填
+  })
     }
   },
   components:{
