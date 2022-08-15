@@ -1,6 +1,16 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: suiyue
+ * @email: 1373842098@qq.com
+ * @Date: 2022-07-30 15:44:47
+ * @LastEditors: sj
+ * @LastEditTime: 2022-08-15 14:49:14
+-->
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
+    <UploadImg/>
   </div>
 </template>
 

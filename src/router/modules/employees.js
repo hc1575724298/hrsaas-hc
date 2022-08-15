@@ -1,3 +1,12 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: suiyue
+ * @email: 1373842098@qq.com
+ * @Date: 2022-08-03 16:08:51
+ * @LastEditors: sj
+ * @LastEditTime: 2022-08-14 15:10:54
+ */
 import Layout from '@/layout'
 export default {
   path: '/employees',
@@ -7,6 +16,11 @@ export default {
       path: '',
       component: () => import('@/views/employees'),
       meta: { title: '员工', icon: 'people' }
+    },
+    {
+      path: 'detail/:id',
+      hidden: true,
+      component: () => import('@/views/employees/detail'),
     }
   ]
 }

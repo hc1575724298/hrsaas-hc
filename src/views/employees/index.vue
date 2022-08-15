@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 16:08:51
  * @LastEditors: sj
- * @LastEditTime: 2022-08-14 14:33:43
+ * @LastEditTime: 2022-08-14 15:46:09
 -->
 <template>
   <div class="dashboard-container">
@@ -62,7 +62,7 @@
           </el-table-column>
           <el-table-column label="操作" sortable="" fixed="right" width="280">
             <template slot-scope="{ row }">
-              <el-button type="text" size="small">查看</el-button>
+              <el-button type="text" size="small" @click="$router.push('/employees/detail/'+row.id)">查看</el-button>
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
@@ -152,7 +152,7 @@ export default {
         page: 1,
         size: this.total
        })
-
+       console.log(rows);
        const header = Object.keys(exportExcelMapPath)
        const date = rows.map(item => {
           return header.map(h => {
@@ -164,7 +164,7 @@ export default {
             }
           })
        })
-      //  console.log(date);
+       console.log(date);
       export_json_to_excel({
     header, //表头 必填
     data:date, //具体数据 必填
