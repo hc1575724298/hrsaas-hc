@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-02 16:46:25
+ * @LastEditTime: 2022-08-19 10:04:45
  */
 import request from '@/utils/request'
 
@@ -32,6 +32,22 @@ export const getUserInfoAPI = () => request({
   method: 'POST'
 })
 
+/**
+ * 根据ID获取员工详情数据
+ * @param {*} id
+ * @returns
+ */
 export const getUserDetailAPI = (id) => request({
   url: `/sys/user/${id}`,
+})
+
+/**
+ * 保存员工基本信息
+ * @param {*} data
+ * @returns
+ */
+export const saveUserDetailById = (data) => request({
+  url: `/sys/user/${datd.id}`,
+  method: "PUT",
+  data
 })

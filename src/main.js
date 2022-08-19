@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-12 10:59:58
+ * @LastEditTime: 2022-08-19 10:51:59
  */
 import Vue from 'vue'
 
@@ -36,6 +36,10 @@ import * as filters from '@/filters'
 for (let k in filters) {
   Vue.filter(k, filters[k])
 }
+
+// 打印功能
+import Print from 'vue-print-nb'
+Vue.use(Print)
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

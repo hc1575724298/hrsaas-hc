@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 16:08:51
  * @LastEditors: sj
- * @LastEditTime: 2022-08-14 15:46:09
+ * @LastEditTime: 2022-08-15 16:28:14
 -->
 <template>
   <div class="dashboard-container">
@@ -34,6 +34,7 @@
                   border-radius: 50%;
                   padding: 10px;
                 "
+                @click="showErCodeDialog(row.staffPhoto)"
               />
             </template>
           </el-table-column>
@@ -90,10 +91,16 @@
 
     <!-- 新增员工 -->
     <add-employees :Visible.sync="showAddEmployees" @add-success="getEmployeedInfo"/>
+
+    <!-- 头像二维码弹框 -->
+    <el-dialog title="头像二维码" :visible.sync="idShowErCode">
+      <canvas id="canvas"></canvas>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+import QRCode from 'qrcode'
 import { getEmployeedInfoApi ,delEmployeedInfoApi} from '@/api/employees'
 import employees from '@/constant/employees'
 import addEmployees from './components/add-employees.vue'
@@ -108,7 +115,8 @@ export default {
         page: 1,
         size: 10
       },
-      showAddEmployees: false
+      showAddEmployees: false,
+      idShowErCode: false,
     }
   },
 
@@ -172,6 +180,15 @@ export default {
     autoWidth: true, //非必填
     bookType: 'xlsx' //非必填
   })
+    },
+    // 点击头像生成二维码
+    showErCodeDialog(staffPhoto) {
+      if(!staffPhoto)return this.$message.error('头像还未设置')
+      this.idShowErCode = true
+      this.$nextTick(()=>{
+         var canvas = document.getElementById('canvas')
+         QRCode.toCanvas(canvas,staffPhoto)
+      })
     }
   },
   components:{

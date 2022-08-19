@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-14 15:04:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-14 16:49:10
+ * @LastEditTime: 2022-08-19 09:22:00
 -->
 <template>
   <div class="dashboard-container">
@@ -30,7 +30,9 @@
           <el-tab-pane label="个人详情" name="userInfo">
             <UserInfo/>
           </el-tab-pane>
-          <el-tab-pane label="岗位信息" />
+          <el-tab-pane label="岗位信息">
+            <JobInfo/>
+          </el-tab-pane>
         </el-tabs>
       </el-card>
     </div>
@@ -39,6 +41,7 @@
 
 <script>
 import UserInfo from './components/user-info.vue'
+import JobInfo from './components/job-info.vue'
 import { getUserDetailAPI } from '@/api/user'
 import { saveUserDetailById} from '@/api/employees'
 import Cookie from 'js-cookie'
@@ -66,7 +69,8 @@ export default {
     }
   },
   components:{
-    UserInfo
+    UserInfo,
+    JobInfo
   }
 }
 </script>

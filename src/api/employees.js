@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-06 11:27:00
  * @LastEditors: sj
- * @LastEditTime: 2022-08-14 10:41:00
+ * @LastEditTime: 2022-08-19 10:55:58
  */
 import request from '@/utils/request'
 
@@ -97,5 +97,16 @@ export function updatePersonal (data) {
     url: `/employees/${data.userId}/personalInfo`,
     method: 'put',
     data,
+  })
+}
+
+
+/** **
+ * 获取用户的岗位信息
+ *
+ * ****/
+export function getJobDetail (id) {
+  return request({
+    url: `/employees/${id}/jobs`
   })
 }

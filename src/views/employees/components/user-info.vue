@@ -5,10 +5,11 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-14 15:56:55
  * @LastEditors: sj
- * @LastEditTime: 2022-08-15 15:22:34
+ * @LastEditTime: 2022-08-19 10:21:44
 -->
 <template>
   <div class="user-info">
+    <i class="el-icon-printer" @click="$router.push(`/employees/print/${userId}?type=personal`)"></i>
     <!-- 个人信息 -->
     <el-form label-width="220px">
       <!-- 工号 入职时间 -->
