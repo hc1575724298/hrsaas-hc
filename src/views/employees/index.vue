@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 16:08:51
  * @LastEditors: sj
- * @LastEditTime: 2022-08-15 16:28:14
+ * @LastEditTime: 2022-08-22 11:57:13
 -->
 <template>
   <div class="dashboard-container">
@@ -13,9 +13,27 @@
       <page-tools>
         <span slot="left-tag">共166条记录</span>
         <template slot="right">
-          <el-button size="small" type="warning" @click="$router.push('/import')">导入</el-button>
-          <el-button size="small" type="danger" @click="exportExcel">导出</el-button>
-          <el-button size="small" type="primary" @click="onShowAdd">新增员工</el-button>
+          <el-button
+            size="small"
+            type="warning"
+            @click="$router.push('/import')"
+            v-isHas="point.employees.import"
+            >导入</el-button
+          >
+          <el-button
+            size="small"
+            type="danger"
+            @click="exportExcel"
+            v-isHas="point.employees.export"
+            >导出</el-button
+          >
+          <el-button
+            size="small"
+            type="primary"
+            @click="onShowAdd"
+            v-isHas="point.employees.add"
+            >新增员工</el-button
+          >
         </template>
       </page-tools>
       <!-- 放置表格和分页 -->
@@ -63,12 +81,28 @@
           </el-table-column>
           <el-table-column label="操作" sortable="" fixed="right" width="280">
             <template slot-scope="{ row }">
-              <el-button type="text" size="small" @click="$router.push('/employees/detail/'+row.id)">查看</el-button>
+              <el-button
+                type="text"
+                size="small"
+                @click="$router.push('/employees/detail/' + row.id)"
+                >查看</el-button
+              >
               <el-button type="text" size="small">转正</el-button>
               <el-button type="text" size="small">调岗</el-button>
               <el-button type="text" size="small">离职</el-button>
-              <el-button type="text" size="small">角色</el-button>
-              <el-button type="text" size="small" @click="onRemove(row.id)">删除</el-button>
+              <el-button
+                type="text"
+                size="small"
+                @click="showVisibleAssignRole(row.id)"
+                >角色</el-button
+              >
+              <el-button
+                type="text"
+                size="small"
+                @click="onRemove(row.id)"
+                v-if="isHas(point.employees.del)"
+                >删除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -90,23 +124,35 @@
     </div>
 
     <!-- 新增员工 -->
-    <add-employees :Visible.sync="showAddEmployees" @add-success="getEmployeedInfo"/>
+    <add-employees
+      :Visible.sync="showAddEmployees"
+      @add-success="getEmployeedInfo"
+    />
 
     <!-- 头像二维码弹框 -->
     <el-dialog title="头像二维码" :visible.sync="idShowErCode">
       <canvas id="canvas"></canvas>
     </el-dialog>
+
+    <!-- 分配角色 -->
+    <AssignRole
+      :visible.sync="visibleAssignRole"
+      :employeesId="currentEmployeesId"
+    />
   </div>
 </template>
 
 <script>
 import QRCode from 'qrcode'
-import { getEmployeedInfoApi ,delEmployeedInfoApi} from '@/api/employees'
+import { getEmployeedInfoApi, delEmployeedInfoApi } from '@/api/employees'
 import employees from '@/constant/employees'
 import addEmployees from './components/add-employees.vue'
 import employeesConst from '@/constant/employees'
-const { exportExcelMapPath ,hireType} = employeesConst
+const { exportExcelMapPath, hireType } = employeesConst
+import AssignRole from './components/assign-role.vue'
+import mininsPermission from '@/mixins/permission'
 export default {
+  mixins: [mininsPermission],
   data() {
     return {
       employees: [],
@@ -117,6 +163,8 @@ export default {
       },
       showAddEmployees: false,
       idShowErCode: false,
+      visibleAssignRole: false,
+      currentEmployeesId: ''
     }
   },
 
@@ -144,55 +192,63 @@ export default {
       return findItem ? findItem.value : '未知'
     },
     // 删除
-    async onRemove(id){
+    async onRemove(id) {
       await this.$confirm('是否删除该员工')
-     await delEmployeedInfoApi(id)
-     this.$message.success('删除成功')
-     this.getEmployeedInfo()
+      await delEmployeedInfoApi(id)
+      this.$message.success('删除成功')
+      this.getEmployeedInfo()
     },
     // 点击新增员工
-    onShowAdd(){
-      this.showAddEmployees=true
+    onShowAdd() {
+      this.showAddEmployees = true
     },
-    async exportExcel(){
-      const {export_json_to_excel} =await import('@/vendor/Export2Excel') // 文件懒加载
-       const { rows } = await getEmployeedInfoApi({
+    async exportExcel() {
+      const { export_json_to_excel } = await import('@/vendor/Export2Excel') // 文件懒加载
+      const { rows } = await getEmployeedInfoApi({
         page: 1,
         size: this.total
-       })
-       console.log(rows);
-       const header = Object.keys(exportExcelMapPath)
-       const date = rows.map(item => {
-          return header.map(h => {
-            if(h === '聘用形式'){
-            const findItem = hireType.find( hire => hire.id ===item[exportExcelMapPath[h]])
+      })
+      console.log(rows)
+      const header = Object.keys(exportExcelMapPath)
+      const date = rows.map((item) => {
+        return header.map((h) => {
+          if (h === '聘用形式') {
+            const findItem = hireType.find(
+              (hire) => hire.id === item[exportExcelMapPath[h]]
+            )
             return findItem ? findItem.value : '未知'
-            } else {
-              return item[exportExcelMapPath[h]]
-            }
-          })
-       })
-       console.log(date);
+          } else {
+            return item[exportExcelMapPath[h]]
+          }
+        })
+      })
+      console.log(date)
       export_json_to_excel({
-    header, //表头 必填
-    data:date, //具体数据 必填
-    filename: 'excel-list', //非必填
-    autoWidth: true, //非必填
-    bookType: 'xlsx' //非必填
-  })
+        header, //表头 必填
+        data: date, //具体数据 必填
+        filename: 'excel-list', //非必填
+        autoWidth: true, //非必填
+        bookType: 'xlsx' //非必填
+      })
     },
     // 点击头像生成二维码
     showErCodeDialog(staffPhoto) {
-      if(!staffPhoto)return this.$message.error('头像还未设置')
+      if (!staffPhoto) return this.$message.error('头像还未设置')
       this.idShowErCode = true
-      this.$nextTick(()=>{
-         var canvas = document.getElementById('canvas')
-         QRCode.toCanvas(canvas,staffPhoto)
+      this.$nextTick(() => {
+        var canvas = document.getElementById('canvas')
+        QRCode.toCanvas(canvas, staffPhoto)
       })
+    },
+    // 角色谈层
+    showVisibleAssignRole(id) {
+      this.currentEmployeesId = id
+      this.visibleAssignRole = true
     }
   },
-  components:{
-    addEmployees
+  components: {
+    addEmployees,
+    AssignRole
   }
 }
 </script>

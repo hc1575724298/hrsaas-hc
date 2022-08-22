@@ -1,3 +1,12 @@
+<!--
+ * @Descripttion:
+ * @version:
+ * @Author: suiyue
+ * @email: 1373842098@qq.com
+ * @Date: 2022-07-30 15:44:47
+ * @LastEditors: sj
+ * @LastEditTime: 2022-08-20 17:39:02
+-->
 <template>
   <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
@@ -31,7 +40,10 @@ export default {
       'sidebar'
     ]),
     routes() {
-      return this.$router.options.routes
+      // this.$router.options.routes拿到所有的路由规则，但拿不到 动态添加的路由
+      //  所以需要自己维护一个路由规则-->vuex里
+      // return this.$router.options.routes
+      return this.$store.state.permission.routes
     },
     activeMenu() {
       const route = this.$route

@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 12:20:46
  * @LastEditors: sj
- * @LastEditTime: 2022-08-12 16:07:52
+ * @LastEditTime: 2022-08-20 18:13:17
  */
 import Vue from 'vue'
 import Router from 'vue-router'
@@ -75,9 +75,6 @@ export const constantRoutes = [
     }]
   },
 
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
 ]
 
 // 动态路由： 准备好项目所有动态路由，基于后端返回的用户权限对动态路由进行筛选
@@ -96,7 +93,7 @@ export const asyncRoutes = [
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
-  routes: [...constantRoutes, ...asyncRoutes] // 路由规则
+  routes: [...constantRoutes] // 路由规则
 })
 
 const router = createRouter()

@@ -5,12 +5,15 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-03 16:08:51
  * @LastEditors: sj
- * @LastEditTime: 2022-08-19 10:21:06
+ * @LastEditTime: 2022-08-20 15:19:10
  */
 import Layout from '@/layout'
 export default {
   path: '/employees',
   component: Layout,
+  mate: {
+    id: 'employees'
+  },
   children: [
     {
       path: '',

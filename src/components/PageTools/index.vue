@@ -5,7 +5,7 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-08-11 14:46:32
  * @LastEditors: sj
- * @LastEditTime: 2022-08-11 15:39:02
+ * @LastEditTime: 2022-08-20 10:31:17
 -->
 <template>
   <el-card class="box-card">
@@ -53,6 +53,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .box-card {
+    margin: 10px 0;
+  }
 </style>

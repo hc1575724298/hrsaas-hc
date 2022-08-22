@@ -5,9 +5,9 @@
  * @email: 1373842098@qq.com
  * @Date: 2022-07-30 15:44:47
  * @LastEditors: sj
- * @LastEditTime: 2022-08-02 16:42:37
+ * @LastEditTime: 2022-08-22 09:25:32
  */
-import router from '@/router'
+import router, { asyncRoutes } from '@/router'
 import store from '@/store'
 // 路由全局前置守卫： 所有路由进入之前触发
 // to 去哪里路由信息
@@ -24,8 +24,11 @@ router.beforeEach(async (to, from, next) => {
   const token = store.state.user.token
   if (token) {
     if (!store.state.user.userInfo.userId) {
-      // 获取用户信息
-      await store.dispatch('user/getUserInfo')
+      // 获取用户信息 store.dispatch 的返回值是promise
+      const { roles } = await store.dispatch('user/getUserInfo')
+      await store.dispatch('permission/filterRoutes', roles)
+      await store.dispatch('permission/setPointsAction', roles.points)
+      next(to.path)
     }
 
     if (to.path === '/login') return next('/')

@@ -134,6 +134,5 @@ export function transListToTree (data, pid) {
       arr.push(item)
     }
   })
-
   return arr
 }
