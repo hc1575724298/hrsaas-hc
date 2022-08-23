@@ -3,22 +3,60 @@
  * @version:
  * @Author: suiyue
  * @email: 1373842098@qq.com
- * @Date: 2022-08-03 16:08:51
+ * @Date: 2022-08-19 08:10:44
  * @LastEditors: sj
- * @LastEditTime: 2022-08-20 18:17:40
+ * @LastEditTime: 2022-08-23 17:52:04
  */
+
 import Layout from '@/layout'
+
 export default {
-  path: '/social',
+  path: '/social_securitys',
   component: Layout,
-  mate: {
+  name: 'social_securitys',
+  meta: {
     id: 'social_securitys'
   },
   children: [
     {
       path: '',
       component: () => import('@/views/social'),
-      meta: { title: '社保', icon: 'table' }
+      name: 'social_securitys',
+      meta: {
+        title: '社保',
+        icon: 'table'
+
+      }
+    },
+    // 报表
+    {
+      path: 'detail/:id',
+      hidden: true,
+      component: () => import('@/views/social/detail'),
+      name: 'socialDetail',
+      meta: {
+        title: '社保'
+      }
+    },
+    // 历史归档
+    {
+      path: 'historicalArchiving',
+      hidden: true,
+      component: () => import('@/views/social/historical'),
+      name: 'socialHistorical',
+      meta: {
+        title: '历史归档'
+      }
+    },
+    // 月报表
+    {
+      path: 'monthStatement',
+      component: () => import('@/views/social/month'),
+      name: 'socialMonthStatement',
+      hidden: true,
+      meta: {
+        title: '当月报表'
+      }
     }
   ]
 }

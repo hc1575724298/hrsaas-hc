@@ -64,3 +64,9 @@ div:focus {
 .app-container {
   padding: 20px;
 }
+
+.tags-view-container .tags-view-wrapper .tags-view-item.active {
+  background-color: #fafafa !important;
+  color: #000 !important;
+  border: none !important;
+}

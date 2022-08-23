@@ -27,7 +27,7 @@ export default {
       const routes = asyncRoutes.filter(item => {
         // 如果权限标识在roles.menus,有这个权限， 返回true
         // 如果权限标识不在roles.menus,没有这个权限， 返回 false
-        return roles.menus.includes(item.mate.id)
+        return roles.menus.includes(item.meta.id)
       })
       // 动态添加路由规则
       router.addRoutes([...routes, { path: '*', redirect: '/404', hidden: true }])
